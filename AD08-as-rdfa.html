@@ -1,0 +1,615 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+<meta charset="UTF-8">
+<title>AD08 table as html</title>
+
+<link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css"/>
+<script src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
+<script src="http://code.jquery.com/ui/1.10.4/jquery-ui.min.js"></script>
+
+<!-- <script src="http://green-turtle.googlecode.com/files/RDFa.min.1.2.0.js" type="text/javascript"></script> -->
+             
+<script src="RDFa.min.1.2.0.js"></script>
+
+
+<style>
+.scrollbar
+{
+overflow-x: scroll;
+overflow-y: scroll;
+} 
+table, th, td
+{
+border-collapse:collapse;
+border:1px solid black;
+}
+caption
+{
+text-align:left
+}
+th, td
+{
+padding:5px;
+}
+.rowisselected{
+color:orange;
+}
+.rowover{
+background-color:orange;
+}
+</style>
+
+
+
+<script type="text/turtle">
+@base <http://www.example.com/dc/dataset/AD08mod/> .
+@prefix ns:    <http://www.example.com/dc/dataset/AD08mod/> .
+@prefix qb:    <http://purl.org/linked-data/cube#> .
+@prefix rdf:   <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs:  <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix prop:  <http://www.example.com/properties/> .
+@prefix dct:   <http://purl.org/dc/terms/> .
+@prefix xsd:   <http://www.w3.org/2001/XMLSchema#> .
+@prefix cs:    <http://www.example.com/dc/dataset/AD08mod/cs/> .
+@prefix code:  <http://www.example.com/dc/dataset/AD08mod/code/> .
+@prefix owl:   <http://www.w3.org/2002/07/owl#> .
+@prefix skos:  <http://www.w3.org/2004/02/skos/core#> .
+@prefix foaf:     <http://xmlns.com/foaf/0.1/> .
+@prefix org:      <http://www.w3.org/ns/org#> .
+@prefix prov:     <http://www.w3.org/ns/prov#> .
+
+ns:dsd-AD08mod a qb:DataStructureDefinition;
+  qb:component cs:C1Baseline_Characteristics ;
+  qb:component cs:C2Level ;
+  qb:component cs:C3Statistics ;
+  qb:component cs:C4Placebo_Neq28 ;
+  qb:component cs:C5Placebo_Neq28 ;
+  qb:component cs:C6Active_Drug_Neq30 ;
+  qb:component cs:C7Active_Drug_Neq30 .
+
+ns:dataset-AD08Table112 rdfs:label "Demographics and Baseline Characteristics";
+  dct:title "Demographics and Baseline Characteristics";
+  dct:creator "Sample ";
+  rdfs:comment "Table example for Demographics and Baseline Characteristics";
+  dct:description "Table example for Demographics and Baseline Characteristics";
+  dct:issued "2014-02-23"^^xsd:date.
+
+ns:dataset-AD08mod a qb:DataSet ;
+  rdfs:label "AD08mod"@en ;
+  qb:structure ns:dsd-AD08mod .
+
+cs:C1Baseline_Characteristics a qb:ComponentSpecification ;
+  rdfs:label "C1Baseline_Characteristics" ;
+  qb:dimension prop:C1Baseline_Characteristics .
+
+cs:C2Level a qb:ComponentSpecification ;
+  rdfs:label "C2Level" ;
+  qb:dimension prop:C2Level .
+
+cs:C3Statistics a qb:ComponentSpecification ;
+  rdfs:label "C3Statistics" ;
+  qb:dimension prop:C3Statistics .
+
+cs:C4Placebo_Neq28 a qb:ComponentSpecification ;
+  rdfs:label "C4Placebo_Neq28" ;
+  qb:measure prop:C4Placebo_Neq28 .
+
+cs:C5Placebo_Neq28 a qb:ComponentSpecification ;
+  rdfs:label "C5Placebo_Neq28" ;
+  qb:measure prop:C5Placebo_Neq28 .
+
+cs:C6Active_Drug_Neq30 a qb:ComponentSpecification ;
+  rdfs:label "C6Active_Drug_Neq30" ;
+  qb:measure prop:C6Active_Drug_Neq30 .
+
+cs:C7Active_Drug_Neq30 a qb:ComponentSpecification ;
+  rdfs:label "C7Active_Drug_Neq30" ;
+  qb:measure prop:C7Active_Drug_Neq30 .
+
+prop:C1Baseline_Characteristics a rdf:Property, qb:DimensionProperty ;
+  rdfs:label "C1Baseline_Characteristics"@en ;
+  qb:codeList code:c1baseline_characteristics ;
+  rdfs:range code:C1baseline_characteristics .
+
+prop:C2Level a rdf:Property, qb:DimensionProperty ;
+  rdfs:label "C2Level"@en ;
+  qb:codeList code:c2level ;
+  rdfs:range code:C2level .
+
+prop:C3Statistics a rdf:Property, qb:DimensionProperty ;
+  rdfs:label "C3Statistics"@en ;
+  qb:codeList code:c3statistics ;
+  rdfs:range code:C3statistics .
+
+prop:C4Placebo_Neq28 a rdf:Property, qb:MeasureProperty ;
+  rdfs:label "C4Placebo_Neq28"@en .
+
+prop:C5Placebo_Neq28 a rdf:Property, qb:MeasureProperty ;
+  rdfs:label "C5Placebo_Neq28"@en .
+
+prop:C6Active_Drug_Neq30 a rdf:Property, qb:MeasureProperty ;
+  rdfs:label "C6Active_Drug_Neq30"@en .
+
+prop:C7Active_Drug_Neq30 a rdf:Property, qb:MeasureProperty ;
+  rdfs:label "C7Active_Drug_Neq30"@en .
+
+code:C1baseline_characteristics a rdfs:Class, owl:Class;
+  rdfs:subClassOf skos:Concept ;
+  rdfs:label "Code list for c1baseline_characteristics - codelist class"@en;
+  rdfs:comment "Specifies the c1baseline_characteristics for each observation";
+  rdfs:seeAlso code:c1baseline_characteristics .
+
+code:c1baseline_characteristics a skos:ConceptScheme;
+  skos:prefLabel "Code list for c1baseline_characteristics - codelist scheme"@en;
+  rdfs:label "Code list for c1baseline_characteristics - codelist scheme"@en;
+  skos:notation "CL_C1BASELINE_CHARACTERISTICS";
+  skos:note "Specifies the c1baseline_characteristics for each observation";
+  skos:hasTopConcept <code/c1baseline_characteristics/Age> ;
+  skos:hasTopConcept <code/c1baseline_characteristics/Sex> ;
+  skos:hasTopConcept <code/c1baseline_characteristics/Race> ;
+  .
+
+code:C2level a rdfs:Class, owl:Class;
+  rdfs:subClassOf skos:Concept ;
+  rdfs:label "Code list for c2level - codelist class"@en;
+  rdfs:comment "Specifies the c2level for each observation";
+  rdfs:seeAlso code:c2level .
+
+code:c2level a skos:ConceptScheme;
+  skos:prefLabel "Code list for c2level - codelist scheme"@en;
+  rdfs:label "Code list for c2level - codelist scheme"@en;
+  skos:notation "CL_C2LEVEL";
+  skos:note "Specifies the c2level for each observation";
+  skos:hasTopConcept <code/c2level/NA> ;
+  skos:hasTopConcept <code/c2level/F> ;
+  skos:hasTopConcept <code/c2level/M> ;
+  skos:hasTopConcept <code/c2level/Caucasian> ;
+  skos:hasTopConcept <code/c2level/Black> ;
+  skos:hasTopConcept <code/c2level/Asian> ;
+  skos:hasTopConcept <code/c2level/Other> ;
+  .
+
+code:C3statistics a rdfs:Class, owl:Class;
+  rdfs:subClassOf skos:Concept ;
+  rdfs:label "Code list for c3statistics - codelist class"@en;
+  rdfs:comment "Specifies the c3statistics for each observation";
+  rdfs:seeAlso code:c3statistics .
+
+code:c3statistics a skos:ConceptScheme;
+  skos:prefLabel "Code list for c3statistics - codelist scheme"@en;
+  rdfs:label "Code list for c3statistics - codelist scheme"@en;
+  skos:notation "CL_C3STATISTICS";
+  skos:note "Specifies the c3statistics for each observation";
+  skos:hasTopConcept <code/c3statistics/n> ;
+  skos:hasTopConcept <code/c3statistics/mean> ;
+  skos:hasTopConcept <code/c3statistics/sd> ;
+  skos:hasTopConcept <code/c3statistics/minimum> ;
+  skos:hasTopConcept <code/c3statistics/median> ;
+  skos:hasTopConcept <code/c3statistics/maximum> ;
+  skos:hasTopConcept <code/c3statistics/frequency> ;
+  .
+
+<code/c1baseline_characteristics/Age> a skos:Concept, code:C1baseline_characteristics;
+  skos:topConceptOf code:c1baseline_characteristics ;
+  skos:prefLabel "Age" ;
+  skos:inScheme code:c1baseline_characteristics .
+
+<code/c1baseline_characteristics/Sex> a skos:Concept, code:C1baseline_characteristics;
+  skos:topConceptOf code:c1baseline_characteristics ;
+  skos:prefLabel "Sex" ;
+  skos:inScheme code:c1baseline_characteristics .
+
+<code/c1baseline_characteristics/Race> a skos:Concept, code:C1baseline_characteristics;
+  skos:topConceptOf code:c1baseline_characteristics ;
+  skos:prefLabel "Race" ;
+  skos:inScheme code:c1baseline_characteristics .
+
+<code/c2level/NA> a skos:Concept, code:C2level;
+  skos:topConceptOf code:c2level ;
+  skos:prefLabel "NA" ;
+  skos:inScheme code:c2level .
+
+<code/c2level/F> a skos:Concept, code:C2level;
+  skos:topConceptOf code:c2level ;
+  skos:prefLabel "F" ;
+  skos:inScheme code:c2level .
+
+<code/c2level/M> a skos:Concept, code:C2level;
+  skos:topConceptOf code:c2level ;
+  skos:prefLabel "M" ;
+  skos:inScheme code:c2level .
+
+<code/c2level/Caucasian> a skos:Concept, code:C2level;
+  skos:topConceptOf code:c2level ;
+  skos:prefLabel "Caucasian" ;
+  skos:inScheme code:c2level .
+
+<code/c2level/Black> a skos:Concept, code:C2level;
+  skos:topConceptOf code:c2level ;
+  skos:prefLabel "Black" ;
+  skos:inScheme code:c2level .
+
+<code/c2level/Asian> a skos:Concept, code:C2level;
+  skos:topConceptOf code:c2level ;
+  skos:prefLabel "Asian" ;
+  skos:inScheme code:c2level .
+
+<code/c2level/Other> a skos:Concept, code:C2level;
+  skos:topConceptOf code:c2level ;
+  skos:prefLabel "Other" ;
+  skos:inScheme code:c2level .
+
+<code/c3statistics/n> a skos:Concept, code:C3statistics;
+  skos:topConceptOf code:c3statistics ;
+  skos:prefLabel "n" ;
+  skos:inScheme code:c3statistics .
+
+<code/c3statistics/mean> a skos:Concept, code:C3statistics;
+  skos:topConceptOf code:c3statistics ;
+  skos:prefLabel "mean" ;
+  skos:inScheme code:c3statistics .
+
+<code/c3statistics/sd> a skos:Concept, code:C3statistics;
+  skos:topConceptOf code:c3statistics ;
+  skos:prefLabel "sd" ;
+  skos:inScheme code:c3statistics .
+
+<code/c3statistics/minimum> a skos:Concept, code:C3statistics;
+  skos:topConceptOf code:c3statistics ;
+  skos:prefLabel "minimum" ;
+  skos:inScheme code:c3statistics .
+
+<code/c3statistics/median> a skos:Concept, code:C3statistics;
+  skos:topConceptOf code:c3statistics ;
+  skos:prefLabel "median" ;
+  skos:inScheme code:c3statistics .
+
+<code/c3statistics/maximum> a skos:Concept, code:C3statistics;
+  skos:topConceptOf code:c3statistics ;
+  skos:prefLabel "maximum" ;
+  skos:inScheme code:c3statistics .
+
+<code/c3statistics/frequency> a skos:Concept, code:C3statistics;
+  skos:topConceptOf code:c3statistics ;
+  skos:prefLabel "frequency" ;
+  skos:inScheme code:c3statistics .
+
+</script>
+
+
+<script>
+"use strict";
+
+var rowIdselected="?";
+
+function ShowInfo(InfoText)
+{
+if (InfoText!==" ") {
+document.getElementById("InfoArea").innerHTML=InfoText;
+} else {
+document.getElementById("InfoArea").innerHTML="No hints here - try elsewhere";
+}
+
+}
+
+
+$(document).ready(function(){
+
+GreenTurtle.attach(document)
+
+// Handlers
+
+$('.showrow').mouseover(function(){
+ShowInfo("Row defines qb:Observation " + $(this).attr("resource")+"<br>To see RDF for row select Tab RDF for row")
+
+var thissubject=$(this).attr("resource");
+document.getElementById("rdfarowdump").innerHTML="Dump for "+thissubject;
+
+$(this).addClass("rowover");
+
+rowIdselected=$(this).attr("id");
+var listpo="<table style='table-layout:fixed;word-wrap:break-word;font-size:10px;'>"+
+"<tr><th colspan='2'>"+"Subject: "+$(this).attr("resource")+"</th></tr>"+
+"<tr><th>Proposition</th><th>Object</th></tr>";
+
+var su=document.data.getSubject(thissubject);
+console.log(su.subject);
+
+var predicates = su.predicates;
+Object.keys(predicates).forEach(function (predicate) {
+   listpo= listpo+ predicates[predicate].objects.reduce(function (prev, curr) { 
+       return prev + 
+           "<tr>"+
+           "<td style='width:250px'>" + predicate + "</td>" +
+           "<td style='width:250px'>" + curr.value + "</td></tr>" }, '') ;
+        });
+
+listpo=listpo+"</table>";
+document.getElementById("rdfarowdump").innerHTML=listpo;
+
+})
+.mouseout(function(){
+ShowInfo(' ');
+$(this).removeClass("rowover");
+
+})
+<!-- .click(function(){ -->
+
+<!-- if ($(this).hasClass("rowisselected")) { -->
+<!-- rowIdselected="?"; -->
+<!-- $(this).removeClass("rowisselected"); -->
+<!-- document.getElementById("rdfarowdump").innerHTML=" "; -->
+<!-- } else -->
+<!-- { -->
+<!-- if (rowIdselected !=="?") { -->
+<!-- $("#"+rowIdselected).removeClass("rowisselected"); -->
+<!-- }; -->
+
+<!-- var thissubject=$(this).attr("resource"); -->
+<!-- document.getElementById("rdfarowdump").innerHTML="Dump for "+thissubject; -->
+
+<!-- rowIdselected=$(this).attr("id"); -->
+<!-- $(this).addClass("rowisselected"); -->
+<!-- var listpo="<table style='table-layout:fixed;word-wrap:break-word;font-size:10px;'>"+ -->
+<!-- "<tr><th colspan='2'>"+"Subject: "+$(this).attr("resource")+"</th></tr>"+ -->
+<!-- "<tr><th>Proposition</th><th>Object</th></tr>"; -->
+
+<!-- var su=document.data.getSubject(thissubject); -->
+<!-- console.log(su.subject); -->
+
+<!-- var predicates = su.predicates; -->
+<!-- Object.keys(predicates).forEach(function (predicate) { -->
+<!--    listpo= listpo+ predicates[predicate].objects.reduce(function (prev, curr) {  -->
+<!--        return prev +  -->
+<!--            "<tr>"+ -->
+<!--            "<td style='width:250px'>" + predicate + "</td>" + -->
+<!--            "<td style='width:250px'>" + curr.value + "</td></tr>" }, '') ; -->
+<!--         }); -->
+
+<!-- listpo=listpo+"</table>"; -->
+<!-- document.getElementById("rdfarowdump").innerHTML=listpo; -->
+
+<!-- } -->
+<!-- } -->
+<!-- ) -->
+;
+
+
+var ShowRDF='<table style="table-layout:fixed;word-wrap:break-word;font-size:10px;">'+
+"<tr><th>Subject</th><th>Proposition</th><th>Object</th></tr>";
+
+/* Example for accessing objects: https://gist.github.com/clochix/8030179 */
+
+var subjects = document.data.graph.subjects;
+
+Object.keys(subjects).forEach( function (subject) {
+var predicates = subjects[subject].predicates;
+Object.keys(predicates).forEach(function (predicate) {
+   ShowRDF= ShowRDF+ predicates[predicate].objects.reduce(function (prev, curr) { 
+       return prev + 
+           "<tr><td style='width:200px'>" + subject + "</td>" + 
+           "<td style='width:200px'>" + predicate + "</td>" +
+           "<td style='width:200px'>" + curr.value + "</td></tr>" }, '') ;
+        });
+});
+ShowRDF= ShowRDF+ "</table>";
+$("#rdfadump").html(ShowRDF);
+
+$( "#tabs" ).tabs();
+});
+
+
+</script>
+</head>
+<body>
+<h1>AD08 table as RDFa</h1>
+
+<div id="container" style="height:700px;width:1100px">
+
+<!-- Learning: need to define prefix  -->
+
+<div id="the_table" style="height:700px;width:390px;float:left"
+ prefix="ns: http://www.example.com/dc/dataset/AD08mod/ prop: http://www.example.com/properties/ code:  http://www.example.com/dc/dataset/AD08mod/code/ qb: http://purl.org/linked-data/cube#" 
+>
+<table >
+  <colgroup>
+    <col style="width:15px"></col>
+    <col style="width:115px"></col>
+    <col style="width:65px"></col>
+    <col style="width:65px"></col>
+    <col style="width:65px"></col>
+    <col style="width:65px"></col>
+  </colgroup>
+  <caption>Table 1.1.2: Demographics and Baseline Characteristics</caption>
+<!-- 28 and 30 should also be marked up -->
+  <tr><th colspan="2">Baseline Characteristics</th><th colspan="2">Placebo N=<span>28</span></th> <th colspan="2">Active Drug N=<span>30</span></th></tr>
+  <tr><td colspan="6"></td></tr>
+
+  <tr><td colspan="2">Age</td></tr>
+
+<tr id="obs1" class="showrow" resource="ns:obs1" typeof="qb:Observation" >
+<td><span property="prop:C1Baseline_Characteristics" resource="code:c1baseline_characteristics/Age"></span></td>
+<td><span property="prop:C2Level" resource="code:c2level/NA"><span property="prop:C2LevelLabel"></span></span>
+<span property="prop:C3Statistics" resource="code:c3statistics/n"><span property="prop:C3LevelLabel">n</span></span></td></span>
+<td colspan="2" style="text-align: center;"><span property="prop:C4Placebo_Neq28">28</span><span property="prop:C5Placebo_Neq28" contents="0"></span></td>
+<td colspan="2" style="text-align: center;"><span property="prop:C6Active_Drug_Neq30">30</span><span property="prop:C7Active_Neq30" contents="0"></span></td>
+
+</tr>
+
+<tr id="obs2" class="showrow" resource="ns:obs2" typeof="qb:Observation" >
+<td><span property="prop:C1Baseline_Characteristics" resource="code:c1baseline_characteristics/Age"></span></td>
+<td><span property="prop:C2Level" resource="code:c2level/NA"><span property="prop:C2LevelLabel"></span></span>
+<span property="prop:C3Statistics" resource="code:c3statistics/mean"><span property="prop:C3LevelLabel">mean</span></span></td></span>
+<td colspan="2" style="text-align: center;"><span property="prop:C4Placebo_Neq28">42.6</span><span property="prop:C5Placebo_Neq28" contents="0"></span></td>
+<td colspan="2" style="text-align: center;"><span property="prop:C6Active_Drug_Neq30">45.2</span><span property="prop:C7Active_Neq30" contents="0"></span></td>
+</tr>
+
+
+<tr id="obs3" class="showrow" resource="ns:obs3" typeof="qb:Observation" >
+<td><span property="prop:C1Baseline_Characteristics" resource="code:c1baseline_characteristics/Age"></span></td>
+<td><span property="prop:C2Level" resource="code:c2level/NA"><span property="prop:C2LevelLabel"></span></span>
+<span property="prop:C3Statistics" resource="code:c3statistics/sd"><span property="prop:C3LevelLabel"></span>sd</span></td></span>
+<td colspan="2" style="text-align: center;"><span property="prop:C4Placebo_Neq28">12.68</span><span property="prop:C5Placebo_Neq28" contents="0"></span></td>
+<td colspan="2" style="text-align: center;"><span property="prop:C6Active_Drug_Neq30">11.98</span><span property="prop:C7Active_Neq30" contents="0"></span></td>
+</tr>
+
+
+<tr id="obs4" class="showrow" resource="ns:obs4" typeof="qb:Observation" >
+<td><span property="prop:C1Baseline_Characteristics" resource="code:c1baseline_characteristics/Age"></span></td>
+<td><span property="prop:C2Level" resource="code:c2level/NA"><span property="prop:C2LevelLabel"></span></span>
+<span property="prop:C3Statistics" resource="code:c3statistics/minimum"><span property="prop:C3LevelLabel"></span>minimum</span></td></span>
+<td colspan="2" style="text-align: center;"><span property="prop:C4Placebo_Neq28">27</span><span property="prop:C5Placebo_Neq28" contents="0"></span></td>
+<td colspan="2" style="text-align: center;"><span property="prop:C6Active_Drug_Neq30">25</span><span property="prop:C7Active_Neq30" contents="0"></span></td>
+</tr>
+
+
+<tr id="obs5" class="showrow" resource="ns:obs5" typeof="qb:Observation" >
+<td><span property="prop:C1Baseline_Characteristics" resource="code:c1baseline_characteristics/Age"></span></td>
+<td><span property="prop:C2Level" resource="code:c2level/NA"><span property="prop:C2LevelLabel"></span></span>
+<span property="prop:C3Statistics" resource="code:c3statistics/median"><span property="prop:C3LevelLabel"></span>median</span></td></span>
+<td colspan="2" style="text-align: center;"><span property="prop:C4Placebo_Neq28">44</span><span property="prop:C5Placebo_Neq28" contents="0"></span></td>
+<td colspan="2" style="text-align: center;"><span property="prop:C6Active_Drug_Neq30">47</span><span property="prop:C7Active_Neq30" contents="0"></span></td>
+</tr>
+
+
+<tr id="obs6" class="showrow" resource="ns:obs6" typeof="qb:Observation" >
+<td><span property="prop:C1Baseline_Characteristics" resource="code:c1baseline_characteristics/Age"></span></td>
+<td><span property="prop:C2Level" resource="code:c2level/NA"><span property="prop:C2LevelLabel"></span></span>
+<span property="prop:C3Statistics" resource="code:c3statistics/maximum"><span property="prop:C3LevelLabel"></span>maximum</span></td></span>
+<td colspan="2" style="text-align: center;"><span property="prop:C4Placebo_Neq28">67</span><span property="prop:C5Placebo_Neq28" contents="0"></span></td>
+<td colspan="2" style="text-align: center;"><span property="prop:C6Active_Drug_Neq30">70</span><span property="prop:C7Active_Neq30" contents="0"></span></td>
+</tr>
+
+
+ <tr><td colspan="6"></td></tr>
+
+<tr ><td colspan="2">Sex</td></tr>
+<tr id="obs7" class="showrow" resource="ns:obs7" typeof="qb:Observation" >
+<td><span property="prop:C1Baseline_Characteristics" resource="code:c1baseline_characteristics/Sex"></span></td>
+<td><span property="prop:C2Level" resource="code:c2level/F"><span property="prop:C2LevelLabel"><span property="prop:C3Statistics" resource="code:c3statistics/frequency">F</span></span></span></td>
+<td style="text-align: right;"><span property="prop:C4Placebo_Neq28">12</span></td>
+<td>(<span property="prop:C5Placebo_Neq28">42.9</span>)</td>
+<td style="text-align: right;"><span property="prop:C6Active_Drug_Neq30">14</span></td>
+<td>(<span property="prop:C7Active_Drug_Neq30">46.7</span>)</td>
+</tr>
+
+<tr id="obs8" class="showrow" resource="ns:obs8" typeof="qb:Observation" >
+<td><span property="prop:C1Baseline_Characteristics" resource="code:c1baseline_characteristics/Sex"></span></td>
+<td><span property="prop:C2Level" resource="code:c2level/M"><span property="prop:C2LevelLabel"><span property="prop:C3Statistics" resource="code:c3statistics/frequency">M</span></span></span></td>
+<td style="text-align: right;"><span property="prop:C4Placebo_Neq28">16</span></td>
+<td>(<span property="prop:C5Placebo_Neq28">57.1</span>)</td>
+<td style="text-align: right;"><span property="prop:C6Active_Drug_Neq30">16</span></td>
+<td>(<span property="prop:C7Active_Drug_Neq30">53.3</span>)</td>
+</tr>
+<tr ><td colspan="6"></td></tr>
+
+
+<tr><td colspan="2">Race</td></tr>
+<tr id="obs9" class="showrow" resource="ns:obs9" typeof="qb:Observation" >
+<td><span property="prop:C1Baseline_Characteristics" resource="code:c1baseline_characteristics/Race"></span></td>
+<td><span property="prop:C2Level" resource="code:c2level/Caucasian"><span property="prop:C2LevelLabel"><span property="prop:C3Statistics" resource="code:c3statistics/frequency">CAUCASIAN</span></span></span></td>
+<td style="text-align: right;"><span property="prop:C4Placebo_Neq28">22</span></td>
+<td>(<span property="prop:C5Placebo_Neq28">78.6</span>)</td>
+<td style="text-align: right;"><span property="prop:C6Active_Drug_Neq30">26</span></td>
+<td>(<span property="prop:C7Active_Drug_Neq30">86.7</span>)</td>
+</tr>
+
+<tr id="obs10" class="showrow" resource="ns:obs10" typeof="qb:Observation" >
+<td><span property="prop:C1Baseline_Characteristics" resource="code:c1baseline_characteristics/Race"></span></td>
+<td><span property="prop:C2Level" resource="code:c2level/Black"><span property="prop:C2LevelLabel"><span property="prop:C3Statistics" resource="code:c3statistics/frequency">BLACK</span></span></span></td>
+<td style="text-align: right;"><span property="prop:C4Placebo_Neq28">2</span></td>
+<td>(<span property="prop:C5Placebo_Neq28">7.1</span>)</td>
+<td style="text-align: right;"><span property="prop:C6Active_Drug_Neq30">2</span></td>
+<td>(<span property="prop:C7Active_Drug_Neq30">6.7</span>)</td>
+</tr>
+
+
+<tr id="obs11" class="showrow" resource="ns:obs11" typeof="qb:Observation" >
+<td><span property="prop:C1Baseline_Characteristics" resource="code:c1baseline_characteristics/Race"></span></td>
+<td><span property="prop:C2Level" resource="code:c2level/Asian"><span property="prop:C2LevelLabel"><span property="prop:C3Statistics" resource="code:c3statistics/frequency">ASIAN</span></span></span></td>
+<td style="text-align: right;"><span property="prop:C4Placebo_Neq28">3</span></td>
+<td>(<span property="prop:C5Placebo_Neq28">10.7</span>)</td>
+<td style="text-align: right;"><span property="prop:C6Active_Drug_Neq30">1</span></td>
+<td>(<span property="prop:C7Active_Drug_Neq30">3.3</span>)</td>
+</tr>
+
+
+<tr id="obs12" class="showrow" resource="ns:obs12" typeof="qb:Observation" >
+<td><span property="prop:C1Baseline_Characteristics" resource="code:c1baseline_characteristics/Race"></span></td>
+<td><span property="prop:C2Level" resource="code:c2level/Other"><span property="prop:C2LevelLabel"><span property="prop:C3Statistics" resource="code:c3statistics/frequency">OTHER</span></span></span></td>
+<td style="text-align: right;"><span property="prop:C4Placebo_Neq28">1</span></td>
+<td>(<span property="prop:C5Placebo_Neq28">3.6</span>)</td>
+<td style="text-align: right;"><span property="prop:C6Active_Drug_Neq30">1</span></td>
+<td>(<span property="prop:C7Active_Drug_Neq30">3.3</span>)</td>
+</tr>
+
+<tr><td colspan="6"></td></tr>
+
+<tr></tr>
+<tr><td colspan="6">Source data: <span>ADSL</span>. Population: <span>FASFL="Y"</span></td></tr>
+<tr><td colspan="6">The percentage for each categorical variable is calculated using N as the denominator</td></tr>
+</table> 
+</div>
+
+<div id="InfoArea" style="width:650px;height:50px;float:right;padding:10px;">
+Move cursor around to get information
+</div>
+<div id="tabs" style="width:650px;height:650px;float:right">
+<ul>
+<li><a href="#About">About</a></li>
+<li><a href="#rdfarowdump">RDF for row</a></li>
+<li><a href="#rdfadump">RDF in HTML page</a></li>
+<li><a href="#extractusingw3">Extract RDF</a></li>
+<li><a href="#fragment-2">SAS code for selected results</a></li>
+<li><a href="#fragment-3">R code for selected result</a></li>
+</ul>
+<div id="About">
+<h3>RDF Data Cube example in RDFa for PhUSE CSS subgroup 
+<a href="http://www.phusewiki.org/wiki/index.php?title=Analysis_Results_Model">Modeling Analysis Results Metadata to Support Clinical and Non-Clinical Applications</a>
+</h3>
+<h3>Acknowledgements</h3>
+<p> green-turtle. An implementation of the RDFa 1.1 API for browsers. <a href="http://code.google.com/p/green-turtle/">http://code.google.com/p/green-turtle/</a></p>
+<p> sample table from <a href="http://www.phusewiki.org/docs/Conference%202013%20AD%20Presentations/AD08%20.pdf">http://www.phusewiki.org/docs/Conference%202013%20AD%20Presentations/AD08%20.pdf</a> </p>
+<p>converted to RDF data qube using <a href="https://github.com/wstrinz/publisci">https://github.com/wstrinz/publisci</a></p>
+<p>manually converted from RDF to RDFa</p>
+<h3>To do</h3>
+<ul>
+<li>... clean up code ...</li>
+<li>make URI  clickable</li>
+<li>make a cell as qb:Observation instead of row</li>
+<li>use a template language to fill out table</li>
+</ul>
+Draft - 09-mar-2014 <address><a href="mailto:mja@statgroup.dk">Marc Andersen</a></address>
+</div>
+<div id="rdfadump" class="scrollbar">
+Shows all RDFa triples on page  ...
+</div>
+<div id="rdfarowdump" class="scrollbar">
+Shows RDFa triples for the selected row on page  ...
+</div>
+<div id="fragment-2">
+... to be added ... show SAS programming statements to obtain number
+</div>
+<div id="fragment-3">
+... to be added ... show R programming statements to obtain number
+</div>
+<div id="extractusingw3">
+
+<p><a href="http://www.w3.org/2012/pyRdfa/extract?uri=referer" target="_blank">Extract the RDF and show in new page</a></p>
+<p>This uses the <a href="http://www.w3.org/2012/pyRdfa/Overview.html#distill_by_uri+with_options">W3C RDFa 1.1 Distiller and Parser</a></p>
+</div>
+</div> <!-- id="tabs" -->
+
+</div> <!-- the layout -->
+
+<!-- write to console - usefull for checking that the RDFa works
+      <script type="text/javascript">
+          window.addEventListener("rdfa.loaded",function() {
+             console.log(document.data.graph.toString());
+          });
+       </script>
+--> 
+</body>
+</html>
