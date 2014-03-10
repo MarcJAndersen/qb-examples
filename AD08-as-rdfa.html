@@ -43,6 +43,282 @@ background-color:orange;
 
 
 
+<script>
+"use strict";
+
+var rowIdselected="?";
+
+function ShowInfo(InfoText)
+{
+if (InfoText!==" ") {
+document.getElementById("InfoArea").innerHTML=InfoText;
+} else {
+document.getElementById("InfoArea").innerHTML="No hints here - try elsewhere";
+}
+
+}
+
+
+$(document).ready(function(){
+
+GreenTurtle.attach(document)
+
+// Handlers
+
+$('.showrow').mouseover(function(){
+ShowInfo("Row defines qb:Observation " + $(this).attr("resource")+"<br>To see RDF for row select Tab RDF for row")
+
+var thissubject=$(this).attr("resource");
+document.getElementById("rdfarowdump").innerHTML="Dump for "+thissubject;
+
+$(this).addClass("rowover");
+
+rowIdselected=$(this).attr("id");
+var listpo="<table style='table-layout:fixed;word-wrap:break-word;font-size:10px;'>"+
+"<tr><th colspan='2'>"+"Subject: "+$(this).attr("resource")+"</th></tr>"+
+"<tr><th>Proposition</th><th>Object</th></tr>";
+
+var su=document.data.getSubject(thissubject);
+console.log(su.subject);
+
+var predicates = su.predicates;
+Object.keys(predicates).forEach(function (predicate) {
+   listpo= listpo+ predicates[predicate].objects.reduce(function (prev, curr) { 
+       return prev + 
+           "<tr>"+
+           "<td style='width:250px'>" + predicate + "</td>" +
+           "<td style='width:250px'>" + curr.value + "</td></tr>" }, '') ;
+        });
+
+listpo=listpo+"</table>";
+document.getElementById("rdfarowdump").innerHTML=listpo;
+
+})
+.mouseout(function(){
+ShowInfo(' ');
+$(this).removeClass("rowover");
+
+})
+<!-- .click(function(){ -->
+
+<!-- if ($(this).hasClass("rowisselected")) { -->
+<!-- rowIdselected="?"; -->
+<!-- $(this).removeClass("rowisselected"); -->
+<!-- document.getElementById("rdfarowdump").innerHTML=" "; -->
+<!-- } else -->
+<!-- { -->
+<!-- if (rowIdselected !=="?") { -->
+<!-- $("#"+rowIdselected).removeClass("rowisselected"); -->
+<!-- }; -->
+
+<!-- var thissubject=$(this).attr("resource"); -->
+<!-- document.getElementById("rdfarowdump").innerHTML="Dump for "+thissubject; -->
+
+<!-- rowIdselected=$(this).attr("id"); -->
+<!-- $(this).addClass("rowisselected"); -->
+<!-- var listpo="<table style='table-layout:fixed;word-wrap:break-word;font-size:10px;'>"+ -->
+<!-- "<tr><th colspan='2'>"+"Subject: "+$(this).attr("resource")+"</th></tr>"+ -->
+<!-- "<tr><th>Proposition</th><th>Object</th></tr>"; -->
+
+<!-- var su=document.data.getSubject(thissubject); -->
+<!-- console.log(su.subject); -->
+
+<!-- var predicates = su.predicates; -->
+<!-- Object.keys(predicates).forEach(function (predicate) { -->
+<!--    listpo= listpo+ predicates[predicate].objects.reduce(function (prev, curr) {  -->
+<!--        return prev +  -->
+<!--            "<tr>"+ -->
+<!--            "<td style='width:250px'>" + predicate + "</td>" + -->
+<!--            "<td style='width:250px'>" + curr.value + "</td></tr>" }, '') ; -->
+<!--         }); -->
+
+<!-- listpo=listpo+"</table>"; -->
+<!-- document.getElementById("rdfarowdump").innerHTML=listpo; -->
+
+<!-- } -->
+<!-- } -->
+<!-- ) -->
+;
+
+
+var ShowRDF='<table style="table-layout:fixed;word-wrap:break-word;font-size:10px;">'+
+"<tr><th>Subject</th><th>Proposition</th><th>Object</th></tr>";
+
+/* Example for accessing objects: https://gist.github.com/clochix/8030179 */
+
+var subjects = document.data.graph.subjects;
+
+Object.keys(subjects).forEach( function (subject) {
+var predicates = subjects[subject].predicates;
+Object.keys(predicates).forEach(function (predicate) {
+   ShowRDF= ShowRDF+ predicates[predicate].objects.reduce(function (prev, curr) { 
+       return prev + 
+           "<tr><td style='width:200px'>" + subject + "</td>" + 
+           "<td style='width:200px'>" + predicate + "</td>" +
+           "<td style='width:200px'>" + curr.value + "</td></tr>" }, '') ;
+        });
+});
+ShowRDF= ShowRDF+ "</table>";
+$("#rdfadump").html(ShowRDF);
+
+$( "#tabs" ).tabs();
+});
+
+
+</script>
+</head>
+<body>
+<h1>AD08 table as RDFa</h1>
+
+<div id="container" style="height:700px;width:1100px">
+
+<!-- Learning: need to define prefix  -->
+
+<div id="the_table" style="height:700px;width:390px;float:left"
+ prefix="ns: http://www.example.com/dc/dataset/AD08mod/ prop: http://www.example.com/properties/ code:  http://www.example.com/dc/dataset/AD08mod/code/ qb: http://purl.org/linked-data/cube#" 
+>
+
+<!-- START HERE for copying table and Turtle definition -->
+
+<table >
+  <colgroup>
+    <col style="width:15px"></col>
+    <col style="width:115px"></col>
+    <col style="width:65px"></col>
+    <col style="width:65px"></col>
+    <col style="width:65px"></col>
+    <col style="width:65px"></col>
+  </colgroup>
+  <caption>Table 1.1.2: Demographics and Baseline Characteristics</caption>
+<!-- 28 and 30 should also be marked up -->
+  <tr><th colspan="2">Baseline Characteristics</th><th colspan="2">Placebo N=<span>28</span></th> <th colspan="2">Active Drug N=<span>30</span></th></tr>
+  <tr><td colspan="6"></td></tr>
+
+  <tr><td colspan="2">Age</td></tr>
+
+<tr id="obs1" class="showrow" resource="ns:obs1" typeof="qb:Observation" >
+<td><span property="qb:dataSet" resource="ns:dataset-AD08mod"></span>
+<span property="prop:C1Baseline_Characteristics" resource="code:c1baseline_characteristics/Age"></span></td>
+<td><span property="prop:C2Level" resource="code:c2level/NA"><span property="prop:C2LevelLabel"></span></span>
+<span property="prop:C3Statistics" resource="code:c3statistics/n"><span property="prop:C3LevelLabel">n</span></span></td></span>
+<td colspan="2" style="text-align: center;"><span property="prop:C4Placebo_Neq28">28</span><span property="prop:C5Placebo_Neq28" contents="0"></span></td>
+<td colspan="2" style="text-align: center;"><span property="prop:C6Active_Drug_Neq30">30</span><span property="prop:C7Active_Neq30" contents="0"></span></td>
+
+</tr>
+
+<tr id="obs2" class="showrow" resource="ns:obs2" typeof="qb:Observation" >
+<td><span property="qb:dataSet" resource="ns:dataset-AD08mod"></span><span property="prop:C1Baseline_Characteristics" resource="code:c1baseline_characteristics/Age"></span></td>
+<td><span property="prop:C2Level" resource="code:c2level/NA"><span property="prop:C2LevelLabel"></span></span>
+<span property="prop:C3Statistics" resource="code:c3statistics/mean"><span property="prop:C3LevelLabel">mean</span></span></td></span>
+<td colspan="2" style="text-align: center;"><span property="prop:C4Placebo_Neq28">42.6</span><span property="prop:C5Placebo_Neq28" contents="0"></span></td>
+<td colspan="2" style="text-align: center;"><span property="prop:C6Active_Drug_Neq30">45.2</span><span property="prop:C7Active_Neq30" contents="0"></span></td>
+</tr>
+
+
+<tr id="obs3" class="showrow" resource="ns:obs3" typeof="qb:Observation" >
+<td><span property="qb:dataSet" resource="ns:dataset-AD08mod"></span><span property="prop:C1Baseline_Characteristics" resource="code:c1baseline_characteristics/Age"></span></td>
+<td><span property="prop:C2Level" resource="code:c2level/NA"><span property="prop:C2LevelLabel"></span></span>
+<span property="prop:C3Statistics" resource="code:c3statistics/sd"><span property="prop:C3LevelLabel"></span>sd</span></td></span>
+<td colspan="2" style="text-align: center;"><span property="prop:C4Placebo_Neq28">12.68</span><span property="prop:C5Placebo_Neq28" contents="0"></span></td>
+<td colspan="2" style="text-align: center;"><span property="prop:C6Active_Drug_Neq30">11.98</span><span property="prop:C7Active_Neq30" contents="0"></span></td>
+</tr>
+
+
+<tr id="obs4" class="showrow" resource="ns:obs4" typeof="qb:Observation" >
+<td><span property="qb:dataSet" resource="ns:dataset-AD08mod"></span><span property="prop:C1Baseline_Characteristics" resource="code:c1baseline_characteristics/Age"></span></td>
+<td><span property="prop:C2Level" resource="code:c2level/NA"><span property="prop:C2LevelLabel"></span></span>
+<span property="prop:C3Statistics" resource="code:c3statistics/minimum"><span property="prop:C3LevelLabel"></span>minimum</span></td></span>
+<td colspan="2" style="text-align: center;"><span property="prop:C4Placebo_Neq28">27</span><span property="prop:C5Placebo_Neq28" contents="0"></span></td>
+<td colspan="2" style="text-align: center;"><span property="prop:C6Active_Drug_Neq30">25</span><span property="prop:C7Active_Neq30" contents="0"></span></td>
+</tr>
+
+
+<tr id="obs5" class="showrow" resource="ns:obs5" typeof="qb:Observation" >
+<td><span property="qb:dataSet" resource="ns:dataset-AD08mod"></span><span property="prop:C1Baseline_Characteristics" resource="code:c1baseline_characteristics/Age"></span></td>
+<td><span property="prop:C2Level" resource="code:c2level/NA"><span property="prop:C2LevelLabel"></span></span>
+<span property="prop:C3Statistics" resource="code:c3statistics/median"><span property="prop:C3LevelLabel"></span>median</span></td></span>
+<td colspan="2" style="text-align: center;"><span property="prop:C4Placebo_Neq28">44</span><span property="prop:C5Placebo_Neq28" contents="0"></span></td>
+<td colspan="2" style="text-align: center;"><span property="prop:C6Active_Drug_Neq30">47</span><span property="prop:C7Active_Neq30" contents="0"></span></td>
+</tr>
+
+
+<tr id="obs6" class="showrow" resource="ns:obs6" typeof="qb:Observation" >
+<td><span property="qb:dataSet" resource="ns:dataset-AD08mod"></span><span property="prop:C1Baseline_Characteristics" resource="code:c1baseline_characteristics/Age"></span></td>
+<td><span property="prop:C2Level" resource="code:c2level/NA"><span property="prop:C2LevelLabel"></span></span>
+<span property="prop:C3Statistics" resource="code:c3statistics/maximum"><span property="prop:C3LevelLabel"></span>maximum</span></td></span>
+<td colspan="2" style="text-align: center;"><span property="prop:C4Placebo_Neq28">67</span><span property="prop:C5Placebo_Neq28" contents="0"></span></td>
+<td colspan="2" style="text-align: center;"><span property="prop:C6Active_Drug_Neq30">70</span><span property="prop:C7Active_Neq30" contents="0"></span></td>
+</tr>
+
+
+ <tr><td colspan="6"></td></tr>
+
+<tr ><td colspan="2">Sex</td></tr>
+<tr id="obs7" class="showrow" resource="ns:obs7" typeof="qb:Observation" >
+<td><span property="qb:dataSet" resource="ns:dataset-AD08mod"></span><span property="prop:C1Baseline_Characteristics" resource="code:c1baseline_characteristics/Sex"></span></td>
+<td><span property="prop:C2Level" resource="code:c2level/F"><span property="prop:C2LevelLabel"><span property="prop:C3Statistics" resource="code:c3statistics/frequency">F</span></span></span></td>
+<td style="text-align: right;"><span property="prop:C4Placebo_Neq28">12</span></td>
+<td>(<span property="prop:C5Placebo_Neq28">42.9</span>)</td>
+<td style="text-align: right;"><span property="prop:C6Active_Drug_Neq30">14</span></td>
+<td>(<span property="prop:C7Active_Drug_Neq30">46.7</span>)</td>
+</tr>
+
+<tr id="obs8" class="showrow" resource="ns:obs8" typeof="qb:Observation" >
+<td><span property="qb:dataSet" resource="ns:dataset-AD08mod"></span><span property="prop:C1Baseline_Characteristics" resource="code:c1baseline_characteristics/Sex"></span></td>
+<td><span property="prop:C2Level" resource="code:c2level/M"><span property="prop:C2LevelLabel"><span property="prop:C3Statistics" resource="code:c3statistics/frequency">M</span></span></span></td>
+<td style="text-align: right;"><span property="prop:C4Placebo_Neq28">16</span></td>
+<td>(<span property="prop:C5Placebo_Neq28">57.1</span>)</td>
+<td style="text-align: right;"><span property="prop:C6Active_Drug_Neq30">16</span></td>
+<td>(<span property="prop:C7Active_Drug_Neq30">53.3</span>)</td>
+</tr>
+<tr ><td colspan="6"></td></tr>
+
+
+<tr><td colspan="2">Race</td></tr>
+<tr id="obs9" class="showrow" resource="ns:obs9" typeof="qb:Observation" >
+<td><span property="qb:dataSet" resource="ns:dataset-AD08mod"></span><span property="prop:C1Baseline_Characteristics" resource="code:c1baseline_characteristics/Race"></span></td>
+<td><span property="prop:C2Level" resource="code:c2level/Caucasian"><span property="prop:C2LevelLabel"><span property="prop:C3Statistics" resource="code:c3statistics/frequency">CAUCASIAN</span></span></span></td>
+<td style="text-align: right;"><span property="prop:C4Placebo_Neq28">22</span></td>
+<td>(<span property="prop:C5Placebo_Neq28">78.6</span>)</td>
+<td style="text-align: right;"><span property="prop:C6Active_Drug_Neq30">26</span></td>
+<td>(<span property="prop:C7Active_Drug_Neq30">86.7</span>)</td>
+</tr>
+
+<tr id="obs10" class="showrow" resource="ns:obs10" typeof="qb:Observation" >
+<td><span property="qb:dataSet" resource="ns:dataset-AD08mod"></span><span property="prop:C1Baseline_Characteristics" resource="code:c1baseline_characteristics/Race"></span></td>
+<td><span property="prop:C2Level" resource="code:c2level/Black"><span property="prop:C2LevelLabel"><span property="prop:C3Statistics" resource="code:c3statistics/frequency">BLACK</span></span></span></td>
+<td style="text-align: right;"><span property="prop:C4Placebo_Neq28">2</span></td>
+<td>(<span property="prop:C5Placebo_Neq28">7.1</span>)</td>
+<td style="text-align: right;"><span property="prop:C6Active_Drug_Neq30">2</span></td>
+<td>(<span property="prop:C7Active_Drug_Neq30">6.7</span>)</td>
+</tr>
+
+
+<tr id="obs11" class="showrow" resource="ns:obs11" typeof="qb:Observation" >
+<td><span property="qb:dataSet" resource="ns:dataset-AD08mod"></span><span property="prop:C1Baseline_Characteristics" resource="code:c1baseline_characteristics/Race"></span></td>
+<td><span property="prop:C2Level" resource="code:c2level/Asian"><span property="prop:C2LevelLabel"><span property="prop:C3Statistics" resource="code:c3statistics/frequency">ASIAN</span></span></span></td>
+<td style="text-align: right;"><span property="prop:C4Placebo_Neq28">3</span></td>
+<td>(<span property="prop:C5Placebo_Neq28">10.7</span>)</td>
+<td style="text-align: right;"><span property="prop:C6Active_Drug_Neq30">1</span></td>
+<td>(<span property="prop:C7Active_Drug_Neq30">3.3</span>)</td>
+</tr>
+
+
+<tr id="obs12" class="showrow" resource="ns:obs12" typeof="qb:Observation" >
+<td><span property="qb:dataSet" resource="ns:dataset-AD08mod"></span><span property="prop:C1Baseline_Characteristics" resource="code:c1baseline_characteristics/Race"></span></td>
+<td><span property="prop:C2Level" resource="code:c2level/Other"><span property="prop:C2LevelLabel"><span property="prop:C3Statistics" resource="code:c3statistics/frequency">OTHER</span></span></span></td>
+<td style="text-align: right;"><span property="prop:C4Placebo_Neq28">1</span></td>
+<td>(<span property="prop:C5Placebo_Neq28">3.6</span>)</td>
+<td style="text-align: right;"><span property="prop:C6Active_Drug_Neq30">1</span></td>
+<td>(<span property="prop:C7Active_Drug_Neq30">3.3</span>)</td>
+</tr>
+
+<tr><td colspan="6"></td></tr>
+
+<tr></tr>
+<tr><td colspan="6">Source data: <span>ADSL</span>. Population: <span>FASFL="Y"</span></td></tr>
+<tr><td colspan="6">The percentage for each categorical variable is calculated using N as the denominator</td></tr>
+</table> 
 <script type="text/turtle">
 @base <http://www.example.com/dc/dataset/AD08mod/> .
 @prefix ns:    <http://www.example.com/dc/dataset/AD08mod/> .
@@ -279,278 +555,8 @@ code:c3statistics a skos:ConceptScheme;
 </script>
 
 
-<script>
-"use strict";
+<!-- END HERE for copying table and Turtle definition -->
 
-var rowIdselected="?";
-
-function ShowInfo(InfoText)
-{
-if (InfoText!==" ") {
-document.getElementById("InfoArea").innerHTML=InfoText;
-} else {
-document.getElementById("InfoArea").innerHTML="No hints here - try elsewhere";
-}
-
-}
-
-
-$(document).ready(function(){
-
-GreenTurtle.attach(document)
-
-// Handlers
-
-$('.showrow').mouseover(function(){
-ShowInfo("Row defines qb:Observation " + $(this).attr("resource")+"<br>To see RDF for row select Tab RDF for row")
-
-var thissubject=$(this).attr("resource");
-document.getElementById("rdfarowdump").innerHTML="Dump for "+thissubject;
-
-$(this).addClass("rowover");
-
-rowIdselected=$(this).attr("id");
-var listpo="<table style='table-layout:fixed;word-wrap:break-word;font-size:10px;'>"+
-"<tr><th colspan='2'>"+"Subject: "+$(this).attr("resource")+"</th></tr>"+
-"<tr><th>Proposition</th><th>Object</th></tr>";
-
-var su=document.data.getSubject(thissubject);
-console.log(su.subject);
-
-var predicates = su.predicates;
-Object.keys(predicates).forEach(function (predicate) {
-   listpo= listpo+ predicates[predicate].objects.reduce(function (prev, curr) { 
-       return prev + 
-           "<tr>"+
-           "<td style='width:250px'>" + predicate + "</td>" +
-           "<td style='width:250px'>" + curr.value + "</td></tr>" }, '') ;
-        });
-
-listpo=listpo+"</table>";
-document.getElementById("rdfarowdump").innerHTML=listpo;
-
-})
-.mouseout(function(){
-ShowInfo(' ');
-$(this).removeClass("rowover");
-
-})
-<!-- .click(function(){ -->
-
-<!-- if ($(this).hasClass("rowisselected")) { -->
-<!-- rowIdselected="?"; -->
-<!-- $(this).removeClass("rowisselected"); -->
-<!-- document.getElementById("rdfarowdump").innerHTML=" "; -->
-<!-- } else -->
-<!-- { -->
-<!-- if (rowIdselected !=="?") { -->
-<!-- $("#"+rowIdselected).removeClass("rowisselected"); -->
-<!-- }; -->
-
-<!-- var thissubject=$(this).attr("resource"); -->
-<!-- document.getElementById("rdfarowdump").innerHTML="Dump for "+thissubject; -->
-
-<!-- rowIdselected=$(this).attr("id"); -->
-<!-- $(this).addClass("rowisselected"); -->
-<!-- var listpo="<table style='table-layout:fixed;word-wrap:break-word;font-size:10px;'>"+ -->
-<!-- "<tr><th colspan='2'>"+"Subject: "+$(this).attr("resource")+"</th></tr>"+ -->
-<!-- "<tr><th>Proposition</th><th>Object</th></tr>"; -->
-
-<!-- var su=document.data.getSubject(thissubject); -->
-<!-- console.log(su.subject); -->
-
-<!-- var predicates = su.predicates; -->
-<!-- Object.keys(predicates).forEach(function (predicate) { -->
-<!--    listpo= listpo+ predicates[predicate].objects.reduce(function (prev, curr) {  -->
-<!--        return prev +  -->
-<!--            "<tr>"+ -->
-<!--            "<td style='width:250px'>" + predicate + "</td>" + -->
-<!--            "<td style='width:250px'>" + curr.value + "</td></tr>" }, '') ; -->
-<!--         }); -->
-
-<!-- listpo=listpo+"</table>"; -->
-<!-- document.getElementById("rdfarowdump").innerHTML=listpo; -->
-
-<!-- } -->
-<!-- } -->
-<!-- ) -->
-;
-
-
-var ShowRDF='<table style="table-layout:fixed;word-wrap:break-word;font-size:10px;">'+
-"<tr><th>Subject</th><th>Proposition</th><th>Object</th></tr>";
-
-/* Example for accessing objects: https://gist.github.com/clochix/8030179 */
-
-var subjects = document.data.graph.subjects;
-
-Object.keys(subjects).forEach( function (subject) {
-var predicates = subjects[subject].predicates;
-Object.keys(predicates).forEach(function (predicate) {
-   ShowRDF= ShowRDF+ predicates[predicate].objects.reduce(function (prev, curr) { 
-       return prev + 
-           "<tr><td style='width:200px'>" + subject + "</td>" + 
-           "<td style='width:200px'>" + predicate + "</td>" +
-           "<td style='width:200px'>" + curr.value + "</td></tr>" }, '') ;
-        });
-});
-ShowRDF= ShowRDF+ "</table>";
-$("#rdfadump").html(ShowRDF);
-
-$( "#tabs" ).tabs();
-});
-
-
-</script>
-</head>
-<body>
-<h1>AD08 table as RDFa</h1>
-
-<div id="container" style="height:700px;width:1100px">
-
-<!-- Learning: need to define prefix  -->
-
-<div id="the_table" style="height:700px;width:390px;float:left"
- prefix="ns: http://www.example.com/dc/dataset/AD08mod/ prop: http://www.example.com/properties/ code:  http://www.example.com/dc/dataset/AD08mod/code/ qb: http://purl.org/linked-data/cube#" 
->
-<table >
-  <colgroup>
-    <col style="width:15px"></col>
-    <col style="width:115px"></col>
-    <col style="width:65px"></col>
-    <col style="width:65px"></col>
-    <col style="width:65px"></col>
-    <col style="width:65px"></col>
-  </colgroup>
-  <caption>Table 1.1.2: Demographics and Baseline Characteristics</caption>
-<!-- 28 and 30 should also be marked up -->
-  <tr><th colspan="2">Baseline Characteristics</th><th colspan="2">Placebo N=<span>28</span></th> <th colspan="2">Active Drug N=<span>30</span></th></tr>
-  <tr><td colspan="6"></td></tr>
-
-  <tr><td colspan="2">Age</td></tr>
-
-<tr id="obs1" class="showrow" resource="ns:obs1" typeof="qb:Observation" >
-<td><span property="prop:C1Baseline_Characteristics" resource="code:c1baseline_characteristics/Age"></span></td>
-<td><span property="prop:C2Level" resource="code:c2level/NA"><span property="prop:C2LevelLabel"></span></span>
-<span property="prop:C3Statistics" resource="code:c3statistics/n"><span property="prop:C3LevelLabel">n</span></span></td></span>
-<td colspan="2" style="text-align: center;"><span property="prop:C4Placebo_Neq28">28</span><span property="prop:C5Placebo_Neq28" contents="0"></span></td>
-<td colspan="2" style="text-align: center;"><span property="prop:C6Active_Drug_Neq30">30</span><span property="prop:C7Active_Neq30" contents="0"></span></td>
-
-</tr>
-
-<tr id="obs2" class="showrow" resource="ns:obs2" typeof="qb:Observation" >
-<td><span property="prop:C1Baseline_Characteristics" resource="code:c1baseline_characteristics/Age"></span></td>
-<td><span property="prop:C2Level" resource="code:c2level/NA"><span property="prop:C2LevelLabel"></span></span>
-<span property="prop:C3Statistics" resource="code:c3statistics/mean"><span property="prop:C3LevelLabel">mean</span></span></td></span>
-<td colspan="2" style="text-align: center;"><span property="prop:C4Placebo_Neq28">42.6</span><span property="prop:C5Placebo_Neq28" contents="0"></span></td>
-<td colspan="2" style="text-align: center;"><span property="prop:C6Active_Drug_Neq30">45.2</span><span property="prop:C7Active_Neq30" contents="0"></span></td>
-</tr>
-
-
-<tr id="obs3" class="showrow" resource="ns:obs3" typeof="qb:Observation" >
-<td><span property="prop:C1Baseline_Characteristics" resource="code:c1baseline_characteristics/Age"></span></td>
-<td><span property="prop:C2Level" resource="code:c2level/NA"><span property="prop:C2LevelLabel"></span></span>
-<span property="prop:C3Statistics" resource="code:c3statistics/sd"><span property="prop:C3LevelLabel"></span>sd</span></td></span>
-<td colspan="2" style="text-align: center;"><span property="prop:C4Placebo_Neq28">12.68</span><span property="prop:C5Placebo_Neq28" contents="0"></span></td>
-<td colspan="2" style="text-align: center;"><span property="prop:C6Active_Drug_Neq30">11.98</span><span property="prop:C7Active_Neq30" contents="0"></span></td>
-</tr>
-
-
-<tr id="obs4" class="showrow" resource="ns:obs4" typeof="qb:Observation" >
-<td><span property="prop:C1Baseline_Characteristics" resource="code:c1baseline_characteristics/Age"></span></td>
-<td><span property="prop:C2Level" resource="code:c2level/NA"><span property="prop:C2LevelLabel"></span></span>
-<span property="prop:C3Statistics" resource="code:c3statistics/minimum"><span property="prop:C3LevelLabel"></span>minimum</span></td></span>
-<td colspan="2" style="text-align: center;"><span property="prop:C4Placebo_Neq28">27</span><span property="prop:C5Placebo_Neq28" contents="0"></span></td>
-<td colspan="2" style="text-align: center;"><span property="prop:C6Active_Drug_Neq30">25</span><span property="prop:C7Active_Neq30" contents="0"></span></td>
-</tr>
-
-
-<tr id="obs5" class="showrow" resource="ns:obs5" typeof="qb:Observation" >
-<td><span property="prop:C1Baseline_Characteristics" resource="code:c1baseline_characteristics/Age"></span></td>
-<td><span property="prop:C2Level" resource="code:c2level/NA"><span property="prop:C2LevelLabel"></span></span>
-<span property="prop:C3Statistics" resource="code:c3statistics/median"><span property="prop:C3LevelLabel"></span>median</span></td></span>
-<td colspan="2" style="text-align: center;"><span property="prop:C4Placebo_Neq28">44</span><span property="prop:C5Placebo_Neq28" contents="0"></span></td>
-<td colspan="2" style="text-align: center;"><span property="prop:C6Active_Drug_Neq30">47</span><span property="prop:C7Active_Neq30" contents="0"></span></td>
-</tr>
-
-
-<tr id="obs6" class="showrow" resource="ns:obs6" typeof="qb:Observation" >
-<td><span property="prop:C1Baseline_Characteristics" resource="code:c1baseline_characteristics/Age"></span></td>
-<td><span property="prop:C2Level" resource="code:c2level/NA"><span property="prop:C2LevelLabel"></span></span>
-<span property="prop:C3Statistics" resource="code:c3statistics/maximum"><span property="prop:C3LevelLabel"></span>maximum</span></td></span>
-<td colspan="2" style="text-align: center;"><span property="prop:C4Placebo_Neq28">67</span><span property="prop:C5Placebo_Neq28" contents="0"></span></td>
-<td colspan="2" style="text-align: center;"><span property="prop:C6Active_Drug_Neq30">70</span><span property="prop:C7Active_Neq30" contents="0"></span></td>
-</tr>
-
-
- <tr><td colspan="6"></td></tr>
-
-<tr ><td colspan="2">Sex</td></tr>
-<tr id="obs7" class="showrow" resource="ns:obs7" typeof="qb:Observation" >
-<td><span property="prop:C1Baseline_Characteristics" resource="code:c1baseline_characteristics/Sex"></span></td>
-<td><span property="prop:C2Level" resource="code:c2level/F"><span property="prop:C2LevelLabel"><span property="prop:C3Statistics" resource="code:c3statistics/frequency">F</span></span></span></td>
-<td style="text-align: right;"><span property="prop:C4Placebo_Neq28">12</span></td>
-<td>(<span property="prop:C5Placebo_Neq28">42.9</span>)</td>
-<td style="text-align: right;"><span property="prop:C6Active_Drug_Neq30">14</span></td>
-<td>(<span property="prop:C7Active_Drug_Neq30">46.7</span>)</td>
-</tr>
-
-<tr id="obs8" class="showrow" resource="ns:obs8" typeof="qb:Observation" >
-<td><span property="prop:C1Baseline_Characteristics" resource="code:c1baseline_characteristics/Sex"></span></td>
-<td><span property="prop:C2Level" resource="code:c2level/M"><span property="prop:C2LevelLabel"><span property="prop:C3Statistics" resource="code:c3statistics/frequency">M</span></span></span></td>
-<td style="text-align: right;"><span property="prop:C4Placebo_Neq28">16</span></td>
-<td>(<span property="prop:C5Placebo_Neq28">57.1</span>)</td>
-<td style="text-align: right;"><span property="prop:C6Active_Drug_Neq30">16</span></td>
-<td>(<span property="prop:C7Active_Drug_Neq30">53.3</span>)</td>
-</tr>
-<tr ><td colspan="6"></td></tr>
-
-
-<tr><td colspan="2">Race</td></tr>
-<tr id="obs9" class="showrow" resource="ns:obs9" typeof="qb:Observation" >
-<td><span property="prop:C1Baseline_Characteristics" resource="code:c1baseline_characteristics/Race"></span></td>
-<td><span property="prop:C2Level" resource="code:c2level/Caucasian"><span property="prop:C2LevelLabel"><span property="prop:C3Statistics" resource="code:c3statistics/frequency">CAUCASIAN</span></span></span></td>
-<td style="text-align: right;"><span property="prop:C4Placebo_Neq28">22</span></td>
-<td>(<span property="prop:C5Placebo_Neq28">78.6</span>)</td>
-<td style="text-align: right;"><span property="prop:C6Active_Drug_Neq30">26</span></td>
-<td>(<span property="prop:C7Active_Drug_Neq30">86.7</span>)</td>
-</tr>
-
-<tr id="obs10" class="showrow" resource="ns:obs10" typeof="qb:Observation" >
-<td><span property="prop:C1Baseline_Characteristics" resource="code:c1baseline_characteristics/Race"></span></td>
-<td><span property="prop:C2Level" resource="code:c2level/Black"><span property="prop:C2LevelLabel"><span property="prop:C3Statistics" resource="code:c3statistics/frequency">BLACK</span></span></span></td>
-<td style="text-align: right;"><span property="prop:C4Placebo_Neq28">2</span></td>
-<td>(<span property="prop:C5Placebo_Neq28">7.1</span>)</td>
-<td style="text-align: right;"><span property="prop:C6Active_Drug_Neq30">2</span></td>
-<td>(<span property="prop:C7Active_Drug_Neq30">6.7</span>)</td>
-</tr>
-
-
-<tr id="obs11" class="showrow" resource="ns:obs11" typeof="qb:Observation" >
-<td><span property="prop:C1Baseline_Characteristics" resource="code:c1baseline_characteristics/Race"></span></td>
-<td><span property="prop:C2Level" resource="code:c2level/Asian"><span property="prop:C2LevelLabel"><span property="prop:C3Statistics" resource="code:c3statistics/frequency">ASIAN</span></span></span></td>
-<td style="text-align: right;"><span property="prop:C4Placebo_Neq28">3</span></td>
-<td>(<span property="prop:C5Placebo_Neq28">10.7</span>)</td>
-<td style="text-align: right;"><span property="prop:C6Active_Drug_Neq30">1</span></td>
-<td>(<span property="prop:C7Active_Drug_Neq30">3.3</span>)</td>
-</tr>
-
-
-<tr id="obs12" class="showrow" resource="ns:obs12" typeof="qb:Observation" >
-<td><span property="prop:C1Baseline_Characteristics" resource="code:c1baseline_characteristics/Race"></span></td>
-<td><span property="prop:C2Level" resource="code:c2level/Other"><span property="prop:C2LevelLabel"><span property="prop:C3Statistics" resource="code:c3statistics/frequency">OTHER</span></span></span></td>
-<td style="text-align: right;"><span property="prop:C4Placebo_Neq28">1</span></td>
-<td>(<span property="prop:C5Placebo_Neq28">3.6</span>)</td>
-<td style="text-align: right;"><span property="prop:C6Active_Drug_Neq30">1</span></td>
-<td>(<span property="prop:C7Active_Drug_Neq30">3.3</span>)</td>
-</tr>
-
-<tr><td colspan="6"></td></tr>
-
-<tr></tr>
-<tr><td colspan="6">Source data: <span>ADSL</span>. Population: <span>FASFL="Y"</span></td></tr>
-<tr><td colspan="6">The percentage for each categorical variable is calculated using N as the denominator</td></tr>
-</table> 
 </div>
 
 <div id="InfoArea" style="width:650px;height:50px;float:right;padding:10px;">
